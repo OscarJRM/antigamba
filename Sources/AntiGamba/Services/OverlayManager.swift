@@ -20,12 +20,8 @@ public final class OverlayManager {
         onPostpone: @escaping (Int) -> Void,
         onSkip: @escaping () -> Void
     ) {
-        // Sonido de atención suave
-        if let sound = NSSound(named: "Glass") {
-            sound.play()
-        } else {
-            NSSound.beep()
-        }
+        // Reproducir sonido según configuración del usuario
+        AppSettings.shared.playSound()
         
         let modalView = AlertModalView(
             targetState: targetState,

@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct MenuBarView: View {
     @ObservedObject public var cycleManager: CycleManager
+    @ObservedObject private var settings = AppSettings.shared
     @State private var showSettings = false
     
     public init(cycleManager: CycleManager) {
@@ -76,9 +77,9 @@ public struct MenuBarView: View {
                     .fill(Color.primary.opacity(0.05))
             )
             
-            // Botones Principales con Contraste Perfecto
+            // Botones Principales
             HStack(spacing: 10) {
-                // Botón Iniciar / Pausar
+                // Iniciar / Pausar
                 Button(action: {
                     cycleManager.togglePlayPause()
                 }) {
@@ -98,7 +99,7 @@ public struct MenuBarView: View {
                 }
                 .buttonStyle(.plain)
                 
-                // Botón Siguiente Fase (Skip)
+                // Siguiente Fase (Skip)
                 Button(action: {
                     cycleManager.skipToNext()
                 }) {
@@ -114,7 +115,7 @@ public struct MenuBarView: View {
                 .buttonStyle(.plain)
                 .help("Saltar a la siguiente fase")
                 
-                // Botón Reiniciar
+                // Reiniciar
                 Button(action: {
                     cycleManager.resetCurrentPhase()
                 }) {
@@ -152,7 +153,7 @@ public struct MenuBarView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "bell.badge.fill")
                             .font(.system(size: 10))
-                        Text("Probar Modal")
+                        Text("Probar Alerta")
                             .font(.system(size: 11, weight: .medium))
                     }
                     .padding(.horizontal, 9)
@@ -168,31 +169,54 @@ public struct MenuBarView: View {
             Divider()
                 .opacity(0.6)
             
-            // Configurar Minutos
-            DisclosureGroup("⚙️ Configurar minutos", isExpanded: $showSettings) {
-                VStack(spacing: 8) {
-                    HStack {
-                        Text("🦐 Sentado:")
-                            .font(.system(size: 12))
-                        Spacer()
-                        Stepper("\(cycleManager.sittingMinutes) min", value: $cycleManager.sittingMinutes, in: 5...90, step: 5)
-                            .font(.system(size: 12))
+            // Configuración
+            DisclosureGroup("⚙️ Configuración", isExpanded: $showSettings) {
+                VStack(spacing: 12) {
+                    // Duraciones
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("🦐 Sentado:")
+                            Spacer()
+                            Stepper("\(cycleManager.sittingMinutes) min", value: $cycleManager.sittingMinutes, in: 5...90, step: 5)
+                        }
+                        HStack {
+                            Text("🧍 De pie:")
+                            Spacer()
+                            Stepper("\(cycleManager.standingMinutes) min", value: $cycleManager.standingMinutes, in: 1...60, step: 1)
+                        }
+                        HStack {
+                            Text("🚶 Moverse:")
+                            Spacer()
+                            Stepper("\(cycleManager.movingMinutes) min", value: $cycleManager.movingMinutes, in: 1...30, step: 1)
+                        }
                     }
+                    
+                    Divider().opacity(0.4)
+                    
+                    // Selector de sonido
                     HStack {
-                        Text("🧍 De pie:")
-                            .font(.system(size: 12))
+                        Text("🔔 Sonido:")
                         Spacer()
-                        Stepper("\(cycleManager.standingMinutes) min", value: $cycleManager.standingMinutes, in: 1...60, step: 1)
-                            .font(.system(size: 12))
+                        Picker("", selection: Binding(
+                            get: { settings.selectedSound },
+                            set: { settings.playPreview(soundName: $0) }
+                        )) {
+                            ForEach(settings.availableSounds, id: \.self) { sound in
+                                Text(sound).tag(sound)
+                            }
+                        }
+                        .labelsHidden()
+                        .frame(width: 120)
                     }
-                    HStack {
-                        Text("🚶 Moverse:")
-                            .font(.system(size: 12))
-                        Spacer()
-                        Stepper("\(cycleManager.movingMinutes) min", value: $cycleManager.movingMinutes, in: 1...30, step: 1)
-                            .font(.system(size: 12))
-                    }
+                    
+                    // Modo compacto
+                    Toggle("Modo compacto (solo icono)", isOn: $settings.isCompactMode)
+                    
+                    // Iniciar al encender
+                    Toggle("Iniciar con macOS", isOn: $settings.launchAtLogin)
                 }
+                .font(.system(size: 12))
+                .foregroundColor(.secondary)
                 .padding(.top, 8)
             }
             .font(.system(size: 12, weight: .medium))
@@ -217,6 +241,6 @@ public struct MenuBarView: View {
             .buttonStyle(.plain)
         }
         .padding(18)
-        .frame(width: 310)
+        .frame(width: 320)
     }
 }

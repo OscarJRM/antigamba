@@ -4,6 +4,7 @@ import AppKit
 @main
 struct AntiGambaApp: App {
     @StateObject private var cycleManager = CycleManager()
+    @ObservedObject private var settings = AppSettings.shared
     
     init() {
         if CommandLine.arguments.contains("--snapshot") {
@@ -16,8 +17,12 @@ struct AntiGambaApp: App {
         MenuBarExtra {
             MenuBarView(cycleManager: cycleManager)
         } label: {
-            Text("\(cycleManager.currentState.emoji) \(cycleManager.formattedRemainingTime)")
-                .monospacedDigit()
+            if settings.isCompactMode {
+                Text(cycleManager.currentState.emoji)
+            } else {
+                Text("\(cycleManager.currentState.emoji) \(cycleManager.formattedRemainingTime)")
+                    .monospacedDigit()
+            }
         }
         .menuBarExtraStyle(.window)
     }
