@@ -8,9 +8,21 @@
 [![Size](https://img.shields.io/badge/size-%3C%201%20MB-success?style=flat-square)](#)
 
 <p align="center">
-  <img src="assets/shrimp-posture.png" alt="Shrimp posture meme" width="340" />
+  <img src="assets/shrimp-posture.png" alt="Shrimp posture meme" width="320" />
   <br>
   <em>Tired of finishing your day looking like a curved shrimp? AntiGamba has your back (literally).</em>
+</p>
+
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="assets/menubar-preview.png" width="310" alt="AntiGamba Menu Bar Popover" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/modal-preview.png" width="380" alt="AntiGamba Disruptive Modal Alert" />
+  <br>
+  <em>Left: Minimalist Menu Bar Popover &bull; Right: Disruptive Floating Modal Alert</em>
 </p>
 
 ---
