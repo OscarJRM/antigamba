@@ -23,6 +23,12 @@ public final class AppSettings: ObservableObject {
         }
     }
     
+    @Published public var selectedLanguage: AppLanguage {
+        didSet {
+            UserDefaults.standard.set(selectedLanguage.rawValue, forKey: "selectedLanguage")
+        }
+    }
+    
     public let availableSounds = [
         "Glass",
         "Hero",
@@ -37,6 +43,8 @@ public final class AppSettings: ObservableObject {
         self.isCompactMode = UserDefaults.standard.bool(forKey: "isCompactMode")
         self.selectedSound = UserDefaults.standard.string(forKey: "selectedSound") ?? "Glass"
         self.launchAtLogin = SMAppService.mainApp.status == .enabled
+        let langRaw = UserDefaults.standard.string(forKey: "selectedLanguage") ?? "system"
+        self.selectedLanguage = AppLanguage(rawValue: langRaw) ?? .system
     }
     
     public func playSound() {

@@ -29,9 +29,11 @@ struct AntiGambaApp: App {
     
     @MainActor
     private func generateSnapshots() {
+        // Forzar inglés para los screenshots del README oficial
+        AppSettings.shared.selectedLanguage = .english
         let manager = CycleManager()
         
-        // 1. Snapshot del Menu Bar Popover en Dark Mode
+        // 1. Snapshot del Menu Bar Popover en Dark Mode (Inglés)
         let menuView = MenuBarView(cycleManager: manager)
             .padding(14)
             .background(
@@ -49,7 +51,7 @@ struct AntiGambaApp: App {
         
         saveView(menuView, to: "assets/menubar-preview.png")
         
-        // 2. Snapshot del Modal Flotante en Dark Mode
+        // 2. Snapshot del Modal Flotante en Dark Mode (Inglés)
         let modalView = AlertModalView(
             targetState: .standing,
             onStart: {},
@@ -70,7 +72,7 @@ struct AntiGambaApp: App {
         .preferredColorScheme(.dark)
         
         saveView(modalView, to: "assets/modal-preview.png")
-        print("✔ Snapshots generados con éxito en assets/")
+        print("✔ Snapshots en inglés generados con éxito en assets/")
     }
     
     @MainActor

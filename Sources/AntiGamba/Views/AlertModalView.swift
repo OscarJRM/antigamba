@@ -37,12 +37,12 @@ public struct AlertModalView: View {
             
             // Textos
             VStack(spacing: 8) {
-                Text(targetState.alertTitle)
+                Text(L10n.alertTitle(for: targetState))
                     .font(.system(size: 21, weight: .bold))
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                 
-                Text(targetState.alertMessage)
+                Text(L10n.alertMessage(for: targetState))
                     .font(.system(size: 13, weight: .regular))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -61,7 +61,7 @@ public struct AlertModalView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "play.fill")
                             .font(.system(size: 13, weight: .bold))
-                        Text("Empezar \(targetState.actionTitle) (\(targetState.defaultDurationMinutes)m)")
+                        Text(L10n.startAction(for: targetState, minutes: targetState.defaultDurationMinutes))
                             .font(.system(size: 14, weight: .bold))
                     }
                     .foregroundColor(.white)
@@ -79,7 +79,7 @@ public struct AlertModalView: View {
                     Button(action: { onPostpone(5) }) {
                         HStack(spacing: 6) {
                             Image(systemName: "clock.arrow.circlepath")
-                            Text("Posponer 5m")
+                            Text(L10n.postpone5m)
                         }
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.primary)
@@ -95,7 +95,7 @@ public struct AlertModalView: View {
                     Button(action: onSkip) {
                         HStack(spacing: 6) {
                             Image(systemName: "forward.fill")
-                            Text("Saltar")
+                            Text(L10n.skip)
                         }
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.primary)

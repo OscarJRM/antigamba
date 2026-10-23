@@ -27,7 +27,7 @@ public struct MenuBarView: View {
                     Circle()
                         .fill(cycleManager.currentState.accentColor)
                         .frame(width: 7, height: 7)
-                    Text(cycleManager.currentState.title)
+                    Text(L10n.title(for: cycleManager.currentState))
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundColor(.primary)
                 }
@@ -46,7 +46,7 @@ public struct MenuBarView: View {
                     .monospacedDigit()
                     .foregroundColor(.primary)
                 
-                Text(cycleManager.currentState.description)
+                Text(L10n.description(for: cycleManager.currentState))
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -86,7 +86,7 @@ public struct MenuBarView: View {
                     HStack(spacing: 8) {
                         Image(systemName: cycleManager.isRunning ? "pause.fill" : "play.fill")
                             .font(.system(size: 13, weight: .bold))
-                        Text(cycleManager.isRunning ? "Pausar" : "Iniciar")
+                        Text(cycleManager.isRunning ? L10n.pause : L10n.start)
                             .font(.system(size: 14, weight: .bold))
                     }
                     .foregroundColor(.white)
@@ -113,7 +113,7 @@ public struct MenuBarView: View {
                         )
                 }
                 .buttonStyle(.plain)
-                .help("Saltar a la siguiente fase")
+                .help(L10n.skip)
                 
                 // Reiniciar
                 Button(action: {
@@ -129,7 +129,6 @@ public struct MenuBarView: View {
                         )
                 }
                 .buttonStyle(.plain)
-                .help("Reiniciar tiempo de la fase actual")
             }
             
             // Métricas y Botón Probar Modal
@@ -137,7 +136,7 @@ public struct MenuBarView: View {
                 HStack(spacing: 5) {
                     Image(systemName: "flame.fill")
                         .foregroundColor(.orange)
-                    Text("Ciclos hoy:")
+                    Text(L10n.cyclesToday)
                         .font(.system(size: 12))
                         .foregroundColor(.secondary)
                     Text("\(cycleManager.completedCyclesToday)")
@@ -153,7 +152,7 @@ public struct MenuBarView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "bell.badge.fill")
                             .font(.system(size: 10))
-                        Text("Probar Alerta")
+                        Text(L10n.testAlert)
                             .font(.system(size: 11, weight: .medium))
                     }
                     .padding(.horizontal, 9)
@@ -170,22 +169,22 @@ public struct MenuBarView: View {
                 .opacity(0.6)
             
             // Configuración
-            DisclosureGroup("⚙️ Configuración", isExpanded: $showSettings) {
+            DisclosureGroup("⚙️ \(L10n.settings)", isExpanded: $showSettings) {
                 VStack(spacing: 12) {
                     // Duraciones
                     VStack(spacing: 8) {
                         HStack {
-                            Text("🦐 Sentado:")
+                            Text(L10n.sittingLabel)
                             Spacer()
                             Stepper("\(cycleManager.sittingMinutes) min", value: $cycleManager.sittingMinutes, in: 5...90, step: 5)
                         }
                         HStack {
-                            Text("🧍 De pie:")
+                            Text(L10n.standingLabel)
                             Spacer()
                             Stepper("\(cycleManager.standingMinutes) min", value: $cycleManager.standingMinutes, in: 1...60, step: 1)
                         }
                         HStack {
-                            Text("🚶 Moverse:")
+                            Text(L10n.movingLabel)
                             Spacer()
                             Stepper("\(cycleManager.movingMinutes) min", value: $cycleManager.movingMinutes, in: 1...30, step: 1)
                         }
@@ -193,16 +192,29 @@ public struct MenuBarView: View {
                     
                     Divider().opacity(0.4)
                     
+                    // Selector de idioma
+                    HStack {
+                        Text(L10n.languageLabel)
+                        Spacer()
+                        Picker("", selection: $settings.selectedLanguage) {
+                            ForEach(AppLanguage.allCases) { lang in
+                                Text(lang.displayName).tag(lang)
+                            }
+                        }
+                        .labelsHidden()
+                        .frame(width: 140)
+                    }
+                    
                     // Selector de sonido
                     HStack {
-                        Text("🔔 Sonido:")
+                        Text(L10n.soundLabel)
                         Spacer()
                         Picker("", selection: Binding(
                             get: { settings.selectedSound },
                             set: { settings.playPreview(soundName: $0) }
                         )) {
                             ForEach(settings.availableSounds, id: \.self) { sound in
-                                Text(sound).tag(sound)
+                                Text(sound == "Silencioso" ? L10n.silentSound : sound).tag(sound)
                             }
                         }
                         .labelsHidden()
@@ -210,10 +222,10 @@ public struct MenuBarView: View {
                     }
                     
                     // Modo compacto
-                    Toggle("Modo compacto (solo icono)", isOn: $settings.isCompactMode)
+                    Toggle(L10n.compactMode, isOn: $settings.isCompactMode)
                     
                     // Iniciar al encender
-                    Toggle("Iniciar con macOS", isOn: $settings.launchAtLogin)
+                    Toggle(L10n.launchAtLogin, isOn: $settings.launchAtLogin)
                 }
                 .font(.system(size: 12))
                 .foregroundColor(.secondary)
@@ -232,7 +244,7 @@ public struct MenuBarView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "power")
                         .font(.system(size: 11, weight: .semibold))
-                    Text("Salir de AntiGamba")
+                    Text(L10n.quit)
                         .font(.system(size: 12, weight: .medium))
                 }
                 .foregroundColor(.red.opacity(0.9))
