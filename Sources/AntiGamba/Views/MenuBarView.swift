@@ -12,91 +12,136 @@ public struct MenuBarView: View {
         VStack(spacing: 16) {
             // Header
             HStack {
-                HStack(spacing: 6) {
+                HStack(spacing: 8) {
                     Text("🦐")
-                        .font(.title2)
+                        .font(.system(size: 22))
                     Text("AntiGamba")
-                        .font(.headline)
-                        .fontWeight(.bold)
+                        .font(.system(size: 15, weight: .bold))
                 }
                 
                 Spacer()
                 
-                Text(cycleManager.currentState.title)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(cycleManager.currentState.accentColor.opacity(0.15))
-                    .foregroundColor(cycleManager.currentState.accentColor)
-                    .cornerRadius(6)
+                // Badge de estado con indicador luminoso
+                HStack(spacing: 5) {
+                    Circle()
+                        .fill(cycleManager.currentState.accentColor)
+                        .frame(width: 7, height: 7)
+                    Text(cycleManager.currentState.title)
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(.primary)
+                }
+                .padding(.horizontal, 9)
+                .padding(.vertical, 4)
+                .background(
+                    Capsule()
+                        .fill(Color.primary.opacity(0.08))
+                )
             }
             
-            // Reloj y Progreso Central
-            VStack(spacing: 8) {
+            // Tarjeta de Tiempo y Progreso
+            VStack(spacing: 10) {
                 Text(cycleManager.formattedRemainingTime)
-                    .font(.system(size: 38, weight: .bold, design: .rounded))
+                    .font(.system(size: 42, weight: .bold, design: .rounded))
                     .monospacedDigit()
+                    .foregroundColor(.primary)
                 
                 Text(cycleManager.currentState.description)
-                    .font(.caption)
+                    .font(.system(size: 12))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                    .frame(height: 28)
+                    .frame(height: 30)
                 
-                // Barra de progreso
-                ProgressView(value: cycleManager.progress)
-                    .tint(cycleManager.currentState.accentColor)
-                    .padding(.horizontal, 4)
+                // Barra de progreso personalizada
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        Capsule()
+                            .fill(Color.primary.opacity(0.1))
+                            .frame(height: 6)
+                        
+                        Capsule()
+                            .fill(cycleManager.currentState.accentColor)
+                            .frame(width: geometry.size.width * CGFloat(cycleManager.progress), height: 6)
+                            .animation(.linear(duration: 0.5), value: cycleManager.progress)
+                    }
+                }
+                .frame(height: 6)
+                .padding(.horizontal, 4)
+                .padding(.top, 4)
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(Color.primary.opacity(0.04))
-            .cornerRadius(12)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 14)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(Color.primary.opacity(0.05))
+            )
             
-            // Controles de Reproducción
-            HStack(spacing: 12) {
+            // Botones Principales con Contraste Perfecto
+            HStack(spacing: 10) {
+                // Botón Iniciar / Pausar
                 Button(action: {
                     cycleManager.togglePlayPause()
                 }) {
-                    Label(
-                        cycleManager.isRunning ? "Pausar" : "Iniciar",
-                        systemImage: cycleManager.isRunning ? "pause.fill" : "play.fill"
-                    )
+                    HStack(spacing: 8) {
+                        Image(systemName: cycleManager.isRunning ? "pause.fill" : "play.fill")
+                            .font(.system(size: 13, weight: .bold))
+                        Text(cycleManager.isRunning ? "Pausar" : "Iniciar")
+                            .font(.system(size: 14, weight: .bold))
+                    }
+                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
+                    .frame(height: 38)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(cycleManager.currentState.accentColor)
+                    )
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(cycleManager.currentState.accentColor)
-                .controlSize(.regular)
+                .buttonStyle(.plain)
                 
+                // Botón Siguiente Fase (Skip)
                 Button(action: {
                     cycleManager.skipToNext()
                 }) {
                     Image(systemName: "forward.fill")
-                        .frame(width: 24, height: 20)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.primary)
+                        .frame(width: 38, height: 38)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.primary.opacity(0.08))
+                        )
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.plain)
                 .help("Saltar a la siguiente fase")
                 
+                // Botón Reiniciar
                 Button(action: {
                     cycleManager.resetCurrentPhase()
                 }) {
                     Image(systemName: "arrow.counterclockwise")
-                        .frame(width: 24, height: 20)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.primary)
+                        .frame(width: 38, height: 38)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.primary.opacity(0.08))
+                        )
                 }
-                .buttonStyle(.bordered)
-                .help("Reiniciar fase actual")
+                .buttonStyle(.plain)
+                .help("Reiniciar tiempo de la fase actual")
             }
             
-            // Estadísticas y prueba
+            // Métricas y Botón Probar Modal
             HStack {
-                HStack(spacing: 4) {
+                HStack(spacing: 5) {
                     Image(systemName: "flame.fill")
                         .foregroundColor(.orange)
-                    Text("Ciclos hoy: \(cycleManager.completedCyclesToday)")
-                        .font(.caption)
+                    Text("Ciclos hoy:")
+                        .font(.system(size: 12))
                         .foregroundColor(.secondary)
+                    Text("\(cycleManager.completedCyclesToday)")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.primary)
                 }
                 
                 Spacer()
@@ -104,61 +149,74 @@ public struct MenuBarView: View {
                 Button(action: {
                     cycleManager.triggerTestAlert()
                 }) {
-                    Label("Probar Modal", systemImage: "bell.badge")
-                        .font(.caption)
+                    HStack(spacing: 4) {
+                        Image(systemName: "bell.badge.fill")
+                            .font(.system(size: 10))
+                        Text("Probar Modal")
+                            .font(.system(size: 11, weight: .medium))
+                    }
+                    .padding(.horizontal, 9)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule()
+                            .fill(Color.primary.opacity(0.08))
+                    )
                 }
-                .buttonStyle(.borderless)
+                .buttonStyle(.plain)
             }
             
             Divider()
+                .opacity(0.6)
             
-            // Ajustes de duración
+            // Configurar Minutos
             DisclosureGroup("⚙️ Configurar minutos", isExpanded: $showSettings) {
                 VStack(spacing: 8) {
                     HStack {
                         Text("🦐 Sentado:")
-                            .font(.caption)
+                            .font(.system(size: 12))
                         Spacer()
                         Stepper("\(cycleManager.sittingMinutes) min", value: $cycleManager.sittingMinutes, in: 5...90, step: 5)
-                            .font(.caption)
+                            .font(.system(size: 12))
                     }
                     HStack {
                         Text("🧍 De pie:")
-                            .font(.caption)
+                            .font(.system(size: 12))
                         Spacer()
                         Stepper("\(cycleManager.standingMinutes) min", value: $cycleManager.standingMinutes, in: 1...60, step: 1)
-                            .font(.caption)
+                            .font(.system(size: 12))
                     }
                     HStack {
                         Text("🚶 Moverse:")
-                            .font(.caption)
+                            .font(.system(size: 12))
                         Spacer()
                         Stepper("\(cycleManager.movingMinutes) min", value: $cycleManager.movingMinutes, in: 1...30, step: 1)
-                            .font(.caption)
+                            .font(.system(size: 12))
                     }
                 }
-                .padding(.top, 6)
+                .padding(.top, 8)
             }
-            .font(.caption)
+            .font(.system(size: 12, weight: .medium))
             .foregroundColor(.secondary)
             
             Divider()
+                .opacity(0.6)
             
-            // Salir
-            Button(role: .destructive, action: {
+            // Salir de la app
+            Button(action: {
                 NSApplication.shared.terminate(nil)
             }) {
-                HStack {
+                HStack(spacing: 6) {
                     Image(systemName: "power")
+                        .font(.system(size: 11, weight: .semibold))
                     Text("Salir de AntiGamba")
+                        .font(.system(size: 12, weight: .medium))
                 }
-                .font(.caption)
-                .foregroundColor(.red.opacity(0.8))
+                .foregroundColor(.red.opacity(0.9))
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(.borderless)
+            .buttonStyle(.plain)
         }
-        .padding(16)
-        .frame(width: 300)
+        .padding(18)
+        .frame(width: 310)
     }
 }

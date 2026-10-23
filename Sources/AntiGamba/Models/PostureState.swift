@@ -56,11 +56,18 @@ public enum PostureState: String, CaseIterable, Codable, Sendable {
         }
     }
     
+    // Colores vibrantes y elegantes con alto contraste garantizado
     public var accentColor: Color {
         switch self {
-        case .sitting: return .orange
-        case .standing: return .blue
-        case .moving: return .green
+        case .sitting:
+            // Coral / Gamba premium (#FA6538)
+            return Color(red: 0.98, green: 0.40, blue: 0.22)
+        case .standing:
+            // Azul eléctrico moderno (#2E86DE)
+            return Color(red: 0.18, green: 0.52, blue: 0.92)
+        case .moving:
+            // Verde esmeralda (#10AC84)
+            return Color(red: 0.08, green: 0.72, blue: 0.52)
         }
     }
     

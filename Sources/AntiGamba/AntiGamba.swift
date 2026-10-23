@@ -8,11 +8,8 @@ struct AntiGambaApp: App {
         MenuBarExtra {
             MenuBarView(cycleManager: cycleManager)
         } label: {
-            HStack(spacing: 3) {
-                Text(cycleManager.currentState.emoji)
-                Text(cycleManager.formattedRemainingTime)
-                    .monospacedDigit()
-            }
+            Text("\(cycleManager.currentState.emoji) \(cycleManager.formattedRemainingTime)")
+                .monospacedDigit()
         }
         .menuBarExtraStyle(.window)
     }

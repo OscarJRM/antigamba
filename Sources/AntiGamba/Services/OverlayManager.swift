@@ -1,6 +1,11 @@
 import AppKit
 import SwiftUI
 
+private final class KeyPanel: NSPanel {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
+}
+
 @MainActor
 public final class OverlayManager {
     public static let shared = OverlayManager()
@@ -15,7 +20,7 @@ public final class OverlayManager {
         onPostpone: @escaping (Int) -> Void,
         onSkip: @escaping () -> Void
     ) {
-        // Reproducir sonido de atención suave del sistema
+        // Sonido de atención suave
         if let sound = NSSound(named: "Glass") {
             sound.play()
         } else {
@@ -39,12 +44,12 @@ public final class OverlayManager {
         )
         
         let hostingView = NSHostingView(rootView: modalView)
-        hostingView.frame = NSRect(x: 0, y: 0, width: 420, height: 280)
+        hostingView.frame = NSRect(x: 0, y: 0, width: 400, height: 270)
         
         if alertWindow == nil {
-            let panel = NSPanel(
-                contentRect: NSRect(x: 0, y: 0, width: 420, height: 280),
-                styleMask: [.borderless, .nonactivatingPanel],
+            let panel = KeyPanel(
+                contentRect: NSRect(x: 0, y: 0, width: 400, height: 270),
+                styleMask: [.borderless],
                 backing: .buffered,
                 defer: false
             )
