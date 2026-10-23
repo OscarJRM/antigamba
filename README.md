@@ -2,6 +2,7 @@
 
 > **Stop shrimping.** The native ergonomic sit-stand-move companion for macOS developers.
 
+[![Website](https://img.shields.io/badge/website-oscarjrm.github.io%2Fantigamba-orange?style=flat-square)](https://oscarjrm.github.io/antigamba/)
 [![macOS](https://img.shields.io/badge/macOS-13.0%2B-blue?logo=apple&style=flat-square)](https://apple.com)
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange?logo=swift&style=flat-square)](https://swift.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
@@ -12,6 +13,12 @@
   <br>
   <em>Tired of finishing your day looking like a curved shrimp? AntiGamba has your back (literally).</em>
 </p>
+
+---
+
+## 🌐 Official Website
+
+Visit the landing page at **[oscarjrm.github.io/antigamba](https://oscarjrm.github.io/antigamba/)**
 
 ---
 
@@ -58,6 +65,9 @@ If you spend 8+ hours a day coding or working at a desk:
   * Binary size is **< 1 MB** (no Electron, no web runtime bloat).
 * **🎯 Minimalist Menu Bar Extra:** Shows live countdown discreetly (`🦐 39:45` / `🧍 14:20` / `🚶 02:45`).
 * **⚙️ Fully Customizable:** Tweak durations (e.g., 30m sitting, 10m standing, 2m moving) directly from the settings panel.
+* **🌐 Bilingual & Auto Language:** Supports English, Spanish, and Auto System Language.
+* **💾 Smart Day Persistence:** Preserves your daily completed cycles and settings across app restarts.
+* **🚀 Launch at Login:** Seamlessly start when your Mac boots using modern Apple `SMAppService`.
 * **🔒 100% Private & Offline:** No accounts, no analytics, no network calls.
 
 ---
@@ -97,7 +107,9 @@ Sources/AntiGamba/
 ├── AntiGamba.swift            # Main App & MenuBarExtra definition
 ├── Models/
 │   ├── PostureState.swift     # 3-phase state definition (Sitting, Standing, Moving)
-│   └── CycleManager.swift     # Timer engine, state transitions & loop management
+│   ├── CycleManager.swift     # Timer engine, state transitions & loop management
+│   ├── AppSettings.swift      # User settings (compact mode, sounds, launch at login)
+│   └── L10n.swift             # Multilingual localization (EN / ES / System)
 ├── Views/
 │   ├── MenuBarView.swift      # Popover status card (progress bar, controls, settings)
 │   └── AlertModalView.swift   # Frosted glass floating alert view
