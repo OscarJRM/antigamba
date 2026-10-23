@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AntiGamba — Stop Shrimping. The Native Ergonomic Mac App.</title>
+  <meta name="description" content="Featherweight, native macOS menu bar companion for the 40-15-3 ergonomic sit-stand-move cycle. Built with Swift & SwiftUI.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="AntiGamba 🦐 — Stop Shrimping. Stand Tall.">
+  <meta property="og:description" content="The native ergonomic sit-stand-move companion for macOS developers. Free and Open Source.">
+  <meta property="og:image" content="assets/menubar-preview.png">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦐</text></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#FA6538',
+              blue: '#2E86DE',
+              green: '#10AC84',
+              dark: '#0B0D13'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #08090D;
+      color: #E2E8F0;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+    .glass-card {
+      background: rgba(22, 26, 36, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-orange {
+      background: radial-gradient(circle, rgba(250, 101, 56, 0.15) 0%, rgba(8, 9, 13, 0) 70%);
+    }
+    .glow-blue {
+      background: radial-gradient(circle, rgba(46, 134, 222, 0.12) 0%, rgba(8, 9, 13, 0) 70%);
+    }
+  </style>
+</head>
+<body class="selection:bg-orange-500 selection:text-white antialiased overflow-x-hidden">
+
+  <!-- Background Ambient Glow -->
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] glow-orange"></div>
+    <div class="absolute top-[600px] right-0 w-[600px] h-[600px] glow-blue"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="relative z-10 max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3 group">
+      <span class="text-3xl transition-transform group-hover:scale-110">🦐</span>
+      <span class="font-bold text-xl tracking-tight text-white">AntiGamba</span>
+      <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">v1.2.1</span>
+    </a>
+    
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/OscarJRM/antigamba" target="_blank" rel="noopener noreferrer" 
+         class="hidden sm:flex items-center gap-2 text-sm text-slate-300 hover:text-white transition px-4 py-2 rounded-xl glass-card hover:border-slate-500/50">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span>GitHub</span>
+      </a>
+
+      <a href="https://github.com/OscarJRM/antigamba/releases/latest/download/AntiGamba.zip" 
+         class="flex items-center gap-2 text-sm font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 px-5 py-2.5 rounded-xl shadow-lg shadow-orange-500/25 transition-all transform hover:-translate-y-0.5">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.98.6-2.62 1.35-.57.65-1.06 1.71-.93 2.73 1 .08 2.01-.5 2.62-1.23z"/></svg>
+        <span>Download Free</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="relative z-10 max-w-5xl mx-auto px-6 pt-12 pb-20 text-center">
+    
+    <!-- Top Pill -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card text-xs font-medium text-slate-300 mb-8 border border-white/10">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>100% Native Swift &bull; macOS 13+ &bull; Zero Telemetry</span>
+    </div>
+
+    <!-- Main Headline -->
+    <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+      Stop shrimping.<br>
+      <span class="bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">Stand tall. Code better.</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="max-w-2xl mx-auto text-lg sm:text-xl text-slate-400 font-normal mb-10 leading-relaxed">
+      The featherweight menu bar companion designed for developers with standing desks. 
+      Automate the <strong class="text-white">40-15-3 ergonomic cycle</strong> without annoying full-screen lockouts.
+    </p>
+
+    <!-- Call to Actions -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+      <a href="https://github.com/OscarJRM/antigamba/releases/latest/download/AntiGamba.zip" 
+         class="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-base shadow-xl shadow-orange-500/30 transition-all transform hover:-translate-y-0.5">
+        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+        <span>Download for macOS (Universal)</span>
+      </a>
+
+      <a href="https://github.com/OscarJRM/antigamba" target="_blank" rel="noopener noreferrer" 
+         class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-2xl glass-card hover:bg-white/10 text-slate-200 font-semibold text-base transition">
+        <span>View on GitHub ★</span>
+      </a>
+    </div>
+
+    <!-- Micro metadata -->
+    <p class="text-xs text-slate-500 mb-16">
+      Free & Open Source (MIT) &bull; Size: <strong>&lt; 1 MB</strong> &bull; RAM: <strong>~25 MB</strong> &bull; Universal Binary (Apple Silicon & Intel)
+    </p>
+
+    <!-- Visual Showcase (Meme + Side by side App) -->
+    <div class="relative max-w-4xl mx-auto rounded-3xl p-6 sm:p-10 glass-card shadow-2xl border border-white/10">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <!-- The Meme Column -->
+        <div class="md:col-span-5 text-center flex flex-col items-center">
+          <div class="p-4 rounded-2xl bg-black/40 border border-white/5 inline-block mb-3">
+            <img src="assets/shrimp-posture.png" alt="Developer sitting like a shrimp" class="w-64 rounded-xl mx-auto shadow-md">
+          </div>
+          <p class="text-xs font-semibold text-slate-400 italic">
+            "Just 5 more minutes of debugging..."
+          </p>
+          <span class="text-xs text-orange-400 font-medium mt-1">Don't end your workday like this.</span>
+        </div>
+
+        <!-- The App Screenshots Column -->
+        <div class="md:col-span-7 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div class="transform hover:scale-105 transition-transform duration-300">
+            <img src="assets/menubar-preview.png" alt="AntiGamba Menu Bar Popover" class="w-56 rounded-2xl shadow-2xl border border-white/10">
+            <span class="block text-[11px] text-slate-400 mt-2">Discreet Menu Bar Popover</span>
+          </div>
+          <div class="transform hover:scale-105 transition-transform duration-300">
+            <img src="assets/modal-preview.png" alt="AntiGamba Disruptive Modal" class="w-64 rounded-2xl shadow-2xl border border-white/10">
+            <span class="block text-[11px] text-slate-400 mt-2">Disruptive Center Modal</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- The 40-15-3 Ergo Loop Section -->
+  <section class="relative z-10 max-w-5xl mx-auto px-6 py-20">
+    <div class="text-center mb-16">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-orange-400 mb-2">Scientific Ergo-Habit</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white">The 40 &bull; 15 &bull; 3 Loop</p>
+      <p class="text-slate-400 max-w-xl mx-auto mt-3 text-sm">
+        Standing all day causes foot strain. Sitting all day ruins your posture. The secret is continuous posture rotation.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Phase 1 -->
+      <div class="glass-card p-8 rounded-3xl border-t-4 border-t-orange-500 hover:border-orange-500/50 transition">
+        <div class="text-4xl mb-4">🦐</div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">1. Sitting Focus</h3>
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400">40 min</span>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Lower your desk. Sit upright with relaxed shoulders. Focus on deep engineering or writing without distractions.
+        </p>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="glass-card p-8 rounded-3xl border-t-4 border-t-blue-500 hover:border-blue-500/50 transition">
+        <div class="text-4xl mb-4">🧍</div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">2. Standing Desk</h3>
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400">15 min</span>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          A gentle chime and modal prompts you. Elevate your desk. Hit <em>Start</em> and continue coding with <strong>100% free screen space</strong>.
+        </p>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="glass-card p-8 rounded-3xl border-t-4 border-t-emerald-500 hover:border-emerald-500/50 transition">
+        <div class="text-4xl mb-4">🚶</div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">3. Active Break</h3>
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">3 min</span>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Step away from the screen entirely. Stretch your spine, grab a glass of water, and recharge your eyes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Highlights -->
+  <section class="relative z-10 max-w-5xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="text-2xl mb-3">🔔</div>
+        <h4 class="font-bold text-white mb-1.5">Disruptive Modals</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          System banners are easily missed. AntiGamba centers a frosted-glass prompt with audio so you never forget to stand up.
+        </p>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="text-2xl mb-3">🪶</div>
+        <h4 class="font-bold text-white mb-1.5">No Electron Bloat</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Built with pure Swift 6 and SwiftUI. Binary weighs under 1 MB and sits at 0% CPU consumption in your menu bar.
+        </p>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="text-2xl mb-3">🌐</div>
+        <h4 class="font-bold text-white mb-1.5">Bilingual & Auto Language</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Adapts automatically to English or Spanish based on your macOS system language, or pick your preference in Settings.
+        </p>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="text-2xl mb-3">🚀</div>
+        <h4 class="font-bold text-white mb-1.5">Launch at Login</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Uses modern Apple SMAppService. Toggle it once, and AntiGamba is ready every morning when your Mac boots.
+        </p>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="text-2xl mb-3">💾</div>
+        <h4 class="font-bold text-white mb-1.5">Smart Day Persistence</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Your daily completed cycles stay intact across app restarts, and reset automatically each morning.
+        </p>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="text-2xl mb-3">🔒</div>
+        <h4 class="font-bold text-white mb-1.5">100% Private & Offline</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Zero analytics, zero tracking, no network requests. Works entirely offline on your Mac forever.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
+    <div class="glass-card p-12 rounded-3xl border border-orange-500/20 glow-orange">
+      <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+        Ready to say goodbye to the shrimp posture?
+      </h3>
+      <p class="text-slate-400 max-w-md mx-auto text-sm mb-8">
+        Download AntiGamba for free today and take care of your spine during long coding days.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://github.com/OscarJRM/antigamba/releases/latest/download/AntiGamba.zip" 
+           class="px-8 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-lg shadow-orange-500/30 transition transform hover:-translate-y-0.5">
+          Download AntiGamba.zip
+        </a>
+        <a href="https://github.com/OscarJRM/antigamba" target="_blank" rel="noopener noreferrer" 
+           class="px-6 py-3.5 rounded-xl glass-card text-slate-300 hover:text-white font-medium transition">
+          Star on GitHub ⭐
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-white/5 py-10 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>
+        Crafted with ❤️ by <a href="https://github.com/OscarJRM" target="_blank" class="text-slate-400 hover:text-white underline">Oscar Joel Ramírez</a> (OscarJRM)
+      </p>
+      <div class="flex items-center gap-6 text-slate-400">
+        <a href="https://github.com/OscarJRM/antigamba" target="_blank" class="hover:text-white transition">GitHub Repo</a>
+        <a href="https://github.com/OscarJRM/antigamba/releases" target="_blank" class="hover:text-white transition">Releases</a>
+        <a href="https://github.com/OscarJRM/antigamba/blob/main/LICENSE" target="_blank" class="hover:text-white transition">MIT License</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
