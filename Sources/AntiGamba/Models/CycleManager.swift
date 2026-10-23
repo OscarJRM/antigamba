@@ -10,20 +10,37 @@ public final class CycleManager: ObservableObject {
     @Published public var isRunning: Bool = false
     @Published public var completedCyclesToday: Int = 0
     
-    // Duraciones configurables (en minutos)
+    // Duraciones configurables (en minutos) persistidas
     @Published public var sittingMinutes: Int = 40 {
-        didSet { if currentState == .sitting && !isRunning { resetCurrentPhase() } }
+        didSet {
+            UserDefaults.standard.set(sittingMinutes, forKey: sittingKey)
+            if currentState == .sitting && !isRunning { resetCurrentPhase() }
+        }
     }
     @Published public var standingMinutes: Int = 15 {
-        didSet { if currentState == .standing && !isRunning { resetCurrentPhase() } }
+        didSet {
+            UserDefaults.standard.set(standingMinutes, forKey: standingKey)
+            if currentState == .standing && !isRunning { resetCurrentPhase() }
+        }
     }
     @Published public var movingMinutes: Int = 3 {
-        didSet { if currentState == .moving && !isRunning { resetCurrentPhase() } }
+        didSet {
+            UserDefaults.standard.set(movingMinutes, forKey: movingKey)
+            if currentState == .moving && !isRunning { resetCurrentPhase() }
+        }
     }
     
     private var timer: Timer?
     
+    private let cyclesKey = "completedCyclesToday"
+    private let lastDateKey = "lastActiveDateString"
+    private let sittingKey = "sittingMinutes"
+    private let standingKey = "standingMinutes"
+    private let movingKey = "movingMinutes"
+    
     public init() {
+        loadPersistedSettings()
+        loadDailyCycles()
         resetCurrentPhase()
     }
     
@@ -86,6 +103,7 @@ public final class CycleManager: ObservableObject {
         pause()
         if currentState == .moving && state == .sitting {
             completedCyclesToday += 1
+            persistDailyCycles()
         }
         currentState = state
         resetCurrentPhase()
@@ -150,5 +168,42 @@ public final class CycleManager: ObservableObject {
                 self.transitionTo(state: nextState.next, autoStart: true)
             }
         )
+    }
+    
+    // MARK: - Persistencia
+    
+    private func getTodayString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: Date())
+    }
+    
+    private func loadDailyCycles() {
+        let today = getTodayString()
+        let savedDate = UserDefaults.standard.string(forKey: lastDateKey) ?? ""
+        if savedDate == today {
+            self.completedCyclesToday = UserDefaults.standard.integer(forKey: cyclesKey)
+        } else {
+            // Es un nuevo día, reiniciar contador diario
+            self.completedCyclesToday = 0
+            UserDefaults.standard.set(today, forKey: lastDateKey)
+            UserDefaults.standard.set(0, forKey: cyclesKey)
+        }
+    }
+    
+    private func persistDailyCycles() {
+        UserDefaults.standard.set(completedCyclesToday, forKey: cyclesKey)
+        UserDefaults.standard.set(getTodayString(), forKey: lastDateKey)
+    }
+    
+    private func loadPersistedSettings() {
+        let s = UserDefaults.standard.integer(forKey: sittingKey)
+        if s > 0 { self.sittingMinutes = s }
+        
+        let st = UserDefaults.standard.integer(forKey: standingKey)
+        if st > 0 { self.standingMinutes = st }
+        
+        let m = UserDefaults.standard.integer(forKey: movingKey)
+        if m > 0 { self.movingMinutes = m }
     }
 }
