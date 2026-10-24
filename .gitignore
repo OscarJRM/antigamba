@@ -6,3 +6,5 @@
 xcuserdata/
 *.xcodeproj
 *.xcworkspace
+# Local AI runtime state
+.atl/
